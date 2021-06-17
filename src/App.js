@@ -8,7 +8,7 @@ class App extends Component {
     return (
       <Container id="root" component="article" maxWidth="sm">
         <Typography variant="h4" align="center" component="h1">Formulário de Cadastro</Typography>
-        <FormularioCadastro/>
+        <FormularioCadastro formulario={this.props.formulario}/>
       </Container>
     );
   };
