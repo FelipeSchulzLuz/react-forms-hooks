@@ -1,52 +1,56 @@
 import React, { useState } from "react";
 import { Button, TextField, Switch, FormControlLabel } from "@material-ui/core";
 
-function FormularioCadastro({submit}) {
+function FormularioCadastro({ aoEnviar, validacoes }) {
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [cpf, setCpf] = useState("");
   const [promocoes, setPromocoes] = useState(true);
   const [novidades, setNovidades] = useState(true);
+  const [erros, setErros] = useState({cpf: { valido: true, texto: "" }});
 
   return (
     <form
       onSubmit={(e) => {
-       e.preventDefault();
-       submit({nome, sobrenome, cpf, promocoes, novidades})
+        e.preventDefault();
+        aoEnviar({ nome, sobrenome, cpf, promocoes, novidades });
       }}
     >
       <TextField
         value={nome}
         onChange={(e) => {
           setNome(e.target.value);
-          return nome;
         }}
         margin="normal"
-        fullWidth
         id="nome"
         label="Nome"
         variant="outlined"
         type="text"
+        fullWidth
       />
       <TextField
         value={sobrenome}
         onChange={(e) => {
           setSobrenome(e.target.value);
-          return sobrenome;
         }}
         margin="normal"
-        fullWidth
         id="sobrenome"
         label="Sobrenome"
         variant="outlined"
         type="text"
+        fullWidth
       />
       <TextField
         value={cpf}
         onChange={(e) => {
           setCpf(e.target.value);
-          return cpf;
         }}
+        onBlur={(e) => {
+          const isValid = validacoes.validarCpf(cpf);
+          setErros({ cpf: isValid });
+        }}
+        error={!erros.cpf.valido}
+        helperText={erros.cpf.texto}
         margin="normal"
         id="cpf"
         label="CPF"
@@ -59,7 +63,7 @@ function FormularioCadastro({submit}) {
         label="Promoções"
         control={
           <Switch
-          checked={promocoes}
+            checked={promocoes}
             onChange={(event) => setPromocoes(event.target.checked)}
             variant="contained"
             name="Promoções"
@@ -72,7 +76,7 @@ function FormularioCadastro({submit}) {
         label="Novidades"
         control={
           <Switch
-          checked={novidades}
+            checked={novidades}
             onChange={(event) => setNovidades(event.target.checked)}
             variant="contained"
             name="Novidades"
