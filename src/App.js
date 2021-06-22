@@ -8,33 +8,24 @@ class App extends Component {
     return (
       <Container component="article" maxWidth="sm">
         <Typography variant="h4" align="center" component="h1">Formulário de Cadastro</Typography>
-        <FormularioCadastro aoEnviar={aoEnviarForm} validacoes={{validarCpf, validarNomeValido}} formulario={this.props.formulario} />
+        <FormularioCadastro aoEnviar={aoEnviar} validarCPF={validarCPF} />
       </Container>
     );
   };
 };
 
-function aoEnviarForm(dados) {
+function aoEnviar(dados) {
   const formulario = { ...dados }
   console.log(formulario);
 }
 
-function validarCpf(cpf) {
+function validarCPF(cpf) {
   if (cpf.length !== 11) {
     return { valido: false, texto: "CPF não contem 11 digitos" }
   } else {
     return { valido: true, texto: "" }
   }
 }
-
-function validarNomeValido(string) {
-  if (string.length < 3) {
-    return { valido: false, texto: "Nome deve conter mais de 3 letras" }
-  } else {
-    return { valido: true, texto: "" }
-  }
-}
-
 
 
 export default App;
